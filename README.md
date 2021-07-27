@@ -29,9 +29,9 @@ You can mix and match and specify both public_conns and private_conns.
 Format:
 
 ```terraform
-["gatway-name:gateway-bgp-as-num:num_tunnels", "second-gw-name:second-gw-bgp-as-num:num_tunnels", ...]
+["gatway-name:gateway-bgp-as-num:num_vrfs", "second-gw-name:second-gw-bgp-as-num:num_vrfs", ...]
 ```
-**NOTE:** Currently, num_tunnels can only be set to 1. This is reserved for future use with multi-vrf use-cases.
+**NOTE:** Currently, num_vrfs can only be set to 1. This is reserved for future use with multi-vrf use-cases.
 
 Defaults:
 
