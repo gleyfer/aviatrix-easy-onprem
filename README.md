@@ -35,13 +35,13 @@ Format:
 
 Defaults:
 
-**vpc_cidr:** 172.16.0.0/16
-**public_sub:** 172.16.0.0/24
-**private_sub:** 172.16.1.0/24
-**hostname:** onprem-csr
-**instance_type:** t2.medium
-**csr_bgp_as_num:** 64527
-**create_client:** false
+- **vpc_cidr:** 172.16.0.0/16
+- **public_sub:** 172.16.0.0/24
+- **private_sub:** 172.16.1.0/24
+- **hostname:** onprem-csr
+- **instance_type:** t2.medium
+- **csr_bgp_as_num:** 64527
+- **create_client:** false
 
 You can override the defaults either as specifying them as a var on the command line (e.g., -var vpc_cidr="10.100.0.0/16") or modifying the terraform.tfvars
 
