@@ -8,7 +8,7 @@ This is a wrapper around the [aviatrix-demo-onprem](https://github.com/gleyfer/a
 
 Please modify the terraform.tfvars and configure the AWS provider and Aviatrix provider credentials. There are additional options which you can configure for the aviatrix-demo-onprem module which are commented out and you can uncomment and adjust as needed.
 
-Example of quickly deploying the topology with a test client and creating external conns over public IP to two Aviatrix gateways:
+Example of quickly deploying the topology with a test client and creating an S2C+BGP Connection over public IPs to an Aviatrix gateway:
 
 ```bash
 terraform init
