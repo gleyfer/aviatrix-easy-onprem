@@ -12,16 +12,16 @@ Example of quickly deploying the topology with a test client and creating an S2C
 
 ```bash
 terraform init
-terraform plan -var public_conns='["Test-Transit:64525:1"]' -var create_client=true
-terraform apply -var public_conns='["Test-Transit:64525:1"]' -var create_client=true
+terraform plan -var public_conns='["Test-Transit:64525:1"]' -var aws_region="us-west-2" -var create_client=true
+terraform apply -var public_conns='["Test-Transit:64525:1"]' -var aws_region="us-west-2" -var create_client=true
 ```
 
 Example with multiple private external connections (E.g., DX):
 
 ```bash
 terraform init
-terraform plan -var private_conns='["Test-Transit:64525:1", "TestWest-Transit:64526:1"]' -var create_client=true
-terraform apply -var private_conns='["Test-Transit:64525:1", "TestWest-Transit:64526:1"]' -var create_client=true
+terraform plan -var private_conns='["Test-Transit:64525:1", "TestWest-Transit:64526:1"]' -var aws_region="us-west-2" -var create_client=true
+terraform apply -var private_conns='["Test-Transit:64525:1", "TestWest-Transit:64526:1"]' -var aws_region="us-west-2" -var create_client=true
 ```
 
 You can mix and match and specify both public_conns and private_conns.
