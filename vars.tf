@@ -1,14 +1,32 @@
+variable "cloud_type" {
+  description = "Which CSP to deploy the CSR1Kv in"
+  type        = string
+  default     = "aws"
+}
 variable "aws_region" {
   description = "AWS Region in which to deploy the CSR 1KV"
   type        = string
+  default     = "us-east-1"
+}
+variable "azure_location" {
+  description = "Azure Region in which to deploy the CSR 1KV"
+  type        = string
+  default     = "East US"
+}
+variable "azure_rg" {
+  description = "Existing Azure Resource Group into which to deploy"
+  type        = string
+  default     = null
 }
 variable "aws_access_key" {
   description = "AWS API Access key"
   type        = string
+  default     = ""
 }
 variable "aws_secret_key" {
   description = "AWS API Access secret"
   type        = string
+  default     = ""
 }
 variable "controller_ip" {
   description = "Aviatrix Controller IP"
@@ -30,18 +48,18 @@ variable "hostname" {
   type        = string
   default     = "onprem-csr"
 }
-variable "vpc_cidr" {
-  description = "Aviatrix Controller Password"
+variable "network_cidr" {
+  description = "Virtual Network CIDR"
   type        = string
   default     = "172.16.0.0/16"
 }
 variable "public_sub" {
-  description = "Aviatrix Controller Password"
+  description = "Public Subnet CIDR"
   type        = string
   default     = "172.16.0.0/24"
 }
 variable "private_sub" {
-  description = "Aviatrix Controller Password"
+  description = "Public Subnet CIDR"
   type        = string
   default     = "172.16.1.0/24"
 }
