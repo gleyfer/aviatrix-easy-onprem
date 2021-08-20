@@ -5,7 +5,7 @@ terraform {
       version = ">= 3.25"
     }
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = ">= 2.72"
     }
     aviatrix = {
@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region     = var.aws_region
+  region = var.aws_region
 }
 
 provider "azurerm" {
@@ -33,6 +33,7 @@ module "avx-demo-onprem" {
   source         = "github.com/gleyfer/aviatrix-demo-onprem"
   cloud_type     = var.cloud_type
   azure_rg       = var.azure_rg
+  azure_location = var.azure_location
   hostname       = var.hostname
   network_cidr   = var.network_cidr
   public_sub     = var.public_sub
