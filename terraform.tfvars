@@ -20,7 +20,7 @@
 #cloud_type              = ""
 #azure_rg                = ""
 #hostname                = ""
-#vpc_cidr                = ""
+#network_cidr            = ""
 #public_sub              = ""
 #private_sub             = ""
 #instance_type           = ""
