@@ -2,7 +2,14 @@
 
 This is a wrapper around the [aviatrix-demo-onprem](https://github.com/gleyfer/aviatrix-demo-onprem) module which allows the creation of the following topology with a few lines:
 
-![Topology](aviatrix-demo-onprem-Topology.png)
+![AWS Topology](aviatrix-demo-onprem-Topology.png) ![Azure Topology](aviatrix-demo-onprem-Azure.png)
+
+**NOTE**: This template utilizes the CSR1K BYOL offer in the AWS or Azure marketplace. To subscribe to the offer:
+- AWS: https://aws.amazon.com/marketplace/pp/prodview-tinibseuanup2
+- Azure (paste into Cloud Shell):
+```powershell
+Get-AzureRmMarketplaceTerms -Publisher "cisco" -Product "cisco-csr-1000v" -Name "17_3_3-byol" | Set-AzureRmMarketplaceTerms -Accept
+```
 
 # Instructions
 
@@ -45,7 +52,7 @@ Defaults:
 - **csr_bgp_as_num:** 64527
 - **create_client:** false
 
-You can override the defaults either as specifying them as a var on the command line (e.g., -var network_cidr="10.100.0.0/16") or modifying the terraform.tfvars
+You can override the defaults either by specifying them as a var on the command line (e.g., -var network_cidr="10.100.0.0/16") or modifying the terraform.tfvars
 
 Explanation of arguments:
 
