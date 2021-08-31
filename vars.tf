@@ -63,10 +63,15 @@ variable "private_sub" {
   type        = string
   default     = "172.16.1.0/24"
 }
-variable "instance_type" {
-  description = "CSR Instance type"
+variable "aws_instance_type" {
+  description = "AWS CSR Instance type"
   type        = string
   default     = "t2.medium"
+}
+variable "azure_instance_size" {
+  description = "Azure CSR Instance size"
+  type        = string
+  default     = "Standard_DS2_v2"
 }
 variable "public_conns" {
   description = "List of public External Conns"

@@ -1,6 +1,6 @@
 # Aviatrix-Easy-Onprem
 
-This is a wrapper around the [aviatrix-demo-onprem](https://github.com/gleyfer/aviatrix-demo-onprem) module which allows the creation of the following topology with a few lines:
+This is a wrapper around the [aviatrix-demo-onprem-aws](https://github.com/gleyfer/aviatrix-demo-onprem-aws) and [aviatrix-demo-onprem-azure](https://github.com/gleyfer/aviatrix-demo-onprem-azure) modules, which allows the creation of the following topologies with a few lines:
 
 ![AWS Topology](aviatrix-demo-onprem-Topology.png) ![Azure Topology](aviatrix-demo-onprem-Azure.png)
 
@@ -13,25 +13,25 @@ Get-AzureRmMarketplaceTerms -Publisher "cisco" -Product "cisco-csr-1000v" -Name 
 
 # Instructions
 
-Please modify the terraform.tfvars and configure the AWS or Azure provider and Aviatrix provider credentials. There are additional options which you can configure for the aviatrix-demo-onprem module which are commented out and you can uncomment and adjust as needed.
+Please modify the terraform.tfvars and configure the AWS, Azure, and Aviatrix provider credentials. There are additional options which you can configure for the aviatrix-demo-onprem module which are commented out and you can uncomment and adjust as needed.
 
 Example of quickly deploying the topology with a test client and creating an S2C+BGP Connection over public IPs to an Aviatrix gateway:
 
 ```bash
 terraform init
-terraform plan -var public_conns='["Test-Transit:64525:1"]' -var aws_region="us-west-2" -var create_client=true
-terraform apply -var public_conns='["Test-Transit:64525:1"]' -var aws_region="us-west-2" -var create_client=true
+terraform plan -var cloud_type="aws" -var public_conns='["Test-Transit:64525:1"]' -var aws_region="us-west-2" -var create_client=true
+terraform apply -var cloud_type="aws" -var public_conns='["Test-Transit:64525:1"]' -var aws_region="us-west-2" -var create_client=true
 ```
 
-Example with multiple private external connections (E.g., DX):
+Example with a private external connections in Azure (requires VNet peering, Pureport, etc):
 
 ```bash
 terraform init
-terraform plan -var private_conns='["Test-Transit:64525:1", "TestWest-Transit:64526:1"]' -var aws_region="us-west-2" -var create_client=true
-terraform apply -var private_conns='["Test-Transit:64525:1", "TestWest-Transit:64526:1"]' -var aws_region="us-west-2" -var create_client=true
+terraform plan -var cloud_type="azure" -var private_conns='["Test-Transit:64525:1"]' -var azure_location="East US" -var create_client=true
+terraform apply -var cloud_type="azure" -var private_conns='["Test-Transit:64525:1"]' -var azure_location="East US" -var create_client=true
 ```
 
-You can mix and match and specify both public_conns and private_conns.
+You can specify both public_conns and private_conns together.
 
 Format:
 
@@ -48,7 +48,8 @@ Defaults:
 - **public_sub:** 172.16.0.0/24
 - **private_sub:** 172.16.1.0/24
 - **hostname:** onprem-csr
-- **instance_type:** t2.medium
+- **aws_instance_type:** t2.medium
+- **azure_instance_size:** Standard_DS2_v2
 - **csr_bgp_as_num:** 64527
 - **create_client:** false
 
@@ -64,7 +65,8 @@ Explanation of arguments:
 - **network_cidr:** The VPC CIDR block to use when creating the VPC/VNet which the CSR will reside in.
 - **public_sub:** The public subnet for the CSR public facing interface.
 - **private_sub:** The private subnet for the CSR private facing interface. If enabled, the test client will be created in this subnet.
-- **instance_type (optional in AWS, mandatory for Azure):** The instance type to launch the CSR with. Default is t2.medium. If using Azure, set to Azure instance size instead.
+- **aws_instance_type:** The AWS instance type to launch the CSR with. Default is t2.medium.
+- **azure_instance_size:** The Azure instance size to launch the CSR with. Default is Standard_DS2_v2
 - **public_conns:** List of public external connection definitions (please see above example for format). Tunnels will be created to primary and hagw automatically.
 - **private_conns:** List of private external connection definitions (For DX, please see above example for format). Tunnels will be created to primary and hagw automatically.
 - **csr_bgp_as_num:** BGP AS Number to use on the CSR.

@@ -17,7 +17,8 @@
 #password                = ""
 
 #Aviatrix-demo-onprem Module config
-#cloud_type              = ""
+cloud_type               = "aws"
+#azure_location          = ""
 #azure_rg                = ""
 #hostname                = ""
 #network_cidr            = ""
