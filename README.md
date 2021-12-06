@@ -1,11 +1,12 @@
 # Aviatrix-Easy-Onprem
 
-This is a wrapper around the [aviatrix-demo-onprem-aws](https://github.com/gleyfer/aviatrix-demo-onprem-aws) and [aviatrix-demo-onprem-azure](https://github.com/gleyfer/aviatrix-demo-onprem-azure) modules, which allows the creation of the following topologies with a few lines:
+This is a wrapper around the [aviatrix-demo-onprem-aws](https://github.com/gleyfer/aviatrix-demo-onprem-aws) and [aviatrix-demo-onprem-azure](https://github.com/gleyfer/aviatrix-demo-onprem-azure) modules, which allows the creation of the following topologies with a few lines (HA CSR's also supported for AWS):
 
 ![AWS Topology](aviatrix-demo-onprem-Topology.png) ![Azure Topology](aviatrix-demo-onprem-Azure.png)
 
 **NOTE**: This template utilizes the CSR1K BYOL offer in the AWS or Azure marketplace. To subscribe to the offer:
-- AWS: https://aws.amazon.com/marketplace/pp/prodview-tinibseuanup2
+- AWS (Price): https://aws.amazon.com/marketplace/pp/prodview-tinibseuanup2
+- AWS (Perf): https://aws.amazon.com/marketplace/pp/prodview-4mrybq6krrw3g 
 - Azure (paste into Cloud Shell):
 ```powershell
 Get-AzureRmMarketplaceTerms -Publisher "cisco" -Product "cisco-csr-1000v" -Name "17_3_3-byol" | Set-AzureRmMarketplaceTerms -Accept
@@ -15,7 +16,7 @@ Get-AzureRmMarketplaceTerms -Publisher "cisco" -Product "cisco-csr-1000v" -Name 
 
 Please modify the terraform.tfvars and configure the AWS, Azure, and Aviatrix provider credentials. There are additional options which you can configure for the aviatrix-demo-onprem module which are commented out and you can uncomment and adjust as needed.
 
-Example of quickly deploying the topology with a test client and creating an S2C+BGP Connection over public IPs to an Aviatrix gateway:
+Example of quickly deploying a single CSR with a test client and creating an S2C+BGP Connection over public IPs to an Aviatrix gateway:
 
 ```bash
 terraform init
@@ -44,11 +45,11 @@ Defaults:
 
 - **aws_region:** us-east-1
 - **azure_location:** East US
-- **vpc_cidr:** 172.16.0.0/16
-- **public_sub:** 172.16.0.0/24
-- **private_sub:** 172.16.1.0/24
+- **network_cidr:** 172.16.0.0/16
+- **public_subnets:** ["172.16.0.0/24"]
+- **private_subnets:** ["172.16.1.0/24"]
 - **hostname:** onprem-csr
-- **aws_instance_type:** t2.medium
+- **aws_instance_type:** t3.medium
 - **azure_instance_size:** Standard_DS2_v2
 - **csr_bgp_as_num:** 64527
 - **create_client:** false
@@ -63,8 +64,16 @@ Explanation of arguments:
 - **aws_region:** If using AWS, the region into which to deploy the CSR1K
 - **hostname:** The hostname which will be configured on the CSR and which will prefix all of the resources created.
 - **network_cidr:** The VPC CIDR block to use when creating the VPC/VNet which the CSR will reside in.
-- **public_sub:** The public subnet for the CSR public facing interface.
-- **private_sub:** The private subnet for the CSR private facing interface. If enabled, the test client will be created in this subnet.
+- **az1:** Primary CSR/Aviatrix gateway availability zone (default a)
+- **az2:** Secondary CSR/Aviatrix gateway availability zone (default b)
+- **tunnel_proto:** Which tunnel protocol to use for creating Aviatrix tunnels to CSR. Valid values: "IPsec", "GRE", "LAN"
+- **public_subnets:** The list of public subnets for the CSR public facing interface. One value here will create a CSR without HA, putting two values will create HA CSRs.
+- **private_subnets:** The list of private subnets for the CSR private facing interface. One value here will create a CSR without HA, putting two values will create HA CSRs.
+- **public_subnet_ids:** The list of existing public subnet ids for the CSR public facing interface. One value here will create a CSR without HA, putting two values will create HA CSRs.
+- **private_subnet_ids:** The list of existing private subnet ids for the CSR private facing interface. One value here will create a CSR without HA, putting two values will create HA CSRs.
+- **bgpolan_subnet_ids:** Existing BGPoLAN subnet ids to create CSR LAN interface inside of.
+- **advertised_prefixes:** Custom list of prefixes to advertise to Aviatrix Transit. Will create static routes to Null0 for these prefixes on the CSR and redistribute static to BGP.
+
 - **aws_instance_type:** The AWS instance type to launch the CSR with. Default is t2.medium.
 - **azure_instance_size:** The Azure instance size to launch the CSR with. Default is Standard_DS2_v2
 - **public_conns:** List of public external connection definitions (please see above example for format). Tunnels will be created to primary and hagw automatically.

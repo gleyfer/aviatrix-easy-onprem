@@ -48,25 +48,44 @@ variable "hostname" {
   type        = string
   default     = "onprem-csr"
 }
+variable "tunnel_proto" {
+  type    = string
+  default = "IPsec"
+}
+variable "prioritize" {
+  description = "Possible values: price, performance. Instance ami adjusted depending on this"
+  type        = string
+  default     = "price"
+}
 variable "network_cidr" {
   description = "Virtual Network CIDR"
   type        = string
   default     = "172.16.0.0/16"
 }
-variable "public_sub" {
+variable "public_subnets" {
   description = "Public Subnet CIDR"
-  type        = string
-  default     = "172.16.0.0/24"
+  type        = list(string)
+  default     = ["172.16.0.0/24"]
 }
-variable "private_sub" {
+variable "public_subnet_ids" {
+  description = "Use existing CSR Public subnet ids"
+  type        = list(string)
+  default     = null
+}
+variable "private_subnets" {
   description = "Public Subnet CIDR"
-  type        = string
-  default     = "172.16.1.0/24"
+  type        = list(string)
+  default     = ["172.16.1.0/24"]
+}
+variable "private_subnet_ids" {
+  description = "Use existing CSR Private subnet ids"
+  type        = list(string)
+  default     = null
 }
 variable "aws_instance_type" {
   description = "AWS CSR Instance type"
   type        = string
-  default     = "t2.medium"
+  default     = "t3.medium"
 }
 variable "azure_instance_size" {
   description = "Azure CSR Instance size"
@@ -92,4 +111,19 @@ variable "create_client" {
   description = "Create Test Client"
   type        = bool
   default     = false
+}
+variable "advertised_prefixes" {
+  type        = list(string)
+  description = "List of custom advertised prefixes to send over BGP to Transits"
+  default     = []
+}
+variable "az1" {
+  type        = string
+  description = "Primary AZ"
+  default     = "a"
+}
+variable "az2" {
+  type        = string
+  description = "Secondary AZ"
+  default     = "b"
 }
