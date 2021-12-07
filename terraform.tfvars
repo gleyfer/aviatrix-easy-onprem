@@ -11,6 +11,7 @@
 
 #Aviatrix-demo-onprem Module config
 #cloud_type               = "aws"
+#prioritize               = "price"
 #azure_location           = ""
 #azure_rg                 = ""
 #hostname                 = "CSROnprem"
